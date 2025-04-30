@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -77,17 +77,17 @@
       {
         pos: "50% 0%",
         text: "🎬 Segundo encuentro con beso.",
-        media: { type: "video", src: " Video de WhatsApp 2025-04-29 a las 23.37.12_fbe07f46.mp4" }
+        media: { type: "video", src: "videos/Video_de_WhatsApp_2025-04-29_a_las_23.37.12.mp4" }
       },
       {
         pos: "0% 100%",
         text: "💔 Momentos difíciles y distancias.",
-        media: { type: "img", src: "Imagen de WhatsApp 2025-04-29 a las 23.37.15_4c6988c9.jpg" }
+        media: { type: "img", src: "imagenes/Imagen_de_WhatsApp_2025-04-29_a_las_23.37.15.jpg" }
       },
-      {ss
+      {
         pos: "50% 100%",
         text: "💖 Reencuentro con cariño.",
-        media: { type: "video", src: "Video de WhatsApp 2025-04-29 a las 23.37.13_26396c00.mp4 " }
+        media: { type: "video", src: "videos/Video_de_WhatsApp_2025-04-29_a_las_23.37.13.mp4" }
       },
       {
         pos: "center",
@@ -97,17 +97,16 @@
     ];
 
     let step = 0;
-
-    const storyImg = document.getElementById("storyImg");
-    const storyText = document.getElementById("storyText");
-    const extraImg = document.getElementById("extraImg");
+    const storyImg   = document.getElementById("storyImg");
+    const storyText  = document.getElementById("storyText");
+    const extraImg   = document.getElementById("extraImg");
     const extraVideo = document.getElementById("extraVideo");
 
     function nextScene() {
       if (step < scenes.length) {
         const scene = scenes[step];
         storyImg.style.objectPosition = scene.pos;
-        storyText.innerHTML = scene.text;
+        storyText.textContent = scene.text;
 
         // Mostrar medios adicionales si hay
         if (scene.media) {
@@ -115,7 +114,7 @@
             extraImg.src = scene.media.src;
             extraImg.style.display = "block";
             extraVideo.style.display = "none";
-          } else if (scene.media.type === "video") {
+          } else {
             extraVideo.src = scene.media.src;
             extraVideo.style.display = "block";
             extraImg.style.display = "none";
@@ -125,7 +124,7 @@
           extraVideo.style.display = "none";
         }
 
-        // Escena final con botones de respuesta
+        // Si es la última escena, reemplaza el botón por opciones de respuesta
         if (step === scenes.length - 1) {
           document.querySelector("button").outerHTML = `
             <div class="d-flex justify-content-center gap-3 mt-4">
@@ -134,23 +133,20 @@
             </div>
           `;
         }
-
         step++;
       }
     }
 
     function finalRespuesta(resp) {
-      storyText.innerHTML = resp === "Sí"
+      storyText.textContent = resp === "Sí"
         ? "🌟 Me haces el más feliz del mundo. Prometo cuidar esta segunda oportunidad. ❤️"
         : "🕊️ Lo entiendo. Pase lo que pase, siempre desearé lo mejor para ti.";
-      storyImg.style.display = "none";
-      extraImg.style.display = "none";
+      storyImg.style.display   = "none";
+      extraImg.style.display   = "none";
       extraVideo.style.display = "none";
     }
 
-    window.onload = () => {
-      nextScene();
-    };
+    window.onload = nextScene;
   </script>
 
 </body>
