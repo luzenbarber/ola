@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuestra Historia de Amor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+    .card-story {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .scene-img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: 0% 0%;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    video, .extra-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+    .btn-love {
+      background-color: #ff4d6d;
+      border: none;
+      color: white;
+    }
+    .btn-love:hover {
+      background-color: #ff3360;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card-story" id="storyCard">
+      <img id="storyImg" class="scene-img" src="ilustracion.png" alt="Historia ilustrada">
+      <h3 id="storyText">Nuestra historia comienza...</h3>
+
+      <div id="customMedia">
+        <img id="extraImg" class="extra-img" style="display: none;">
+        <video id="extraVideo" controls style="display: none;"></video>
+      </div>
+
+      <button class="btn btn-love mt-3" onclick="nextScene()">Siguiente ❤️</button>
+    </div>
+  </div>
+
+  <script>
+    // Escenas con posiciones del sprite ilustrado y medios adicionales fijos
+    const scenes = [
+      {
+        pos: "0% 0%",
+        text: "✨ Primera vez que nos conocimos en el cine.",
+        media: { type: "img", src: "imagenes/primera_cita.jpg" }
+      },
+      {
+        pos: "50% 0%",
+        text: "🎬 Segundo encuentro con beso.",
+        media: { type: "video", src: "videos/beso.mp4" }
+      },
+      {
+        pos: "0% 100%",
+        text: "💔 Momentos difíciles y distancias.",
+        media: { type: "img", src: "imagenes/peleas.jpg" }
+      },
+      {ss
+        pos: "50% 100%",
+        text: "💖 Reencuentro con cariño.",
+        media: { type: "video", src: "videos/reencuentro.mp4" }
+      },
+      {
+        pos: "center",
+        text: "🥺 ¿Quieres volver a ser mi novia?",
+        media: null
+      }
+    ];
+
+    let step = 0;
+
+    const storyImg = document.getElementById("storyImg");
+    const storyText = document.getElementById("storyText");
+    const extraImg = document.getElementById("extraImg");
+    const extraVideo = document.getElementById("extraVideo");
+
+    function nextScene() {
+      if (step < scenes.length) {
+        const scene = scenes[step];
+        storyImg.style.objectPosition = scene.pos;
+        storyText.innerHTML = scene.text;
+
+        // Mostrar medios adicionales si hay
+        if (scene.media) {
+          if (scene.media.type === "img") {
+            extraImg.src = scene.media.src;
+            extraImg.style.display = "block";
+            extraVideo.style.display = "none";
+          } else if (scene.media.type === "video") {
+            extraVideo.src = scene.media.src;
+            extraVideo.style.display = "block";
+            extraImg.style.display = "none";
+          }
+        } else {
+          extraImg.style.display = "none";
+          extraVideo.style.display = "none";
+        }
+
+        // Escena final con botones de respuesta
+        if (step === scenes.length - 1) {
+          document.querySelector("button").outerHTML = `
+            <div class="d-flex justify-content-center gap-3 mt-4">
+              <button class="btn btn-success" onclick="finalRespuesta('Sí')">Sí, quiero 💕</button>
+              <button class="btn btn-secondary" onclick="finalRespuesta('Tal vez')">Tal vez... 🤍</button>
+            </div>
+          `;
+        }
+
+        step++;
+      }
+    }
+
+    function finalRespuesta(resp) {
+      storyText.innerHTML = resp === "Sí"
+        ? "🌟 Me haces el más feliz del mundo. Prometo cuidar esta segunda oportunidad. ❤️"
+        : "🕊️ Lo entiendo. Pase lo que pase, siempre desearé lo mejor para ti.";
+      storyImg.style.display = "none";
+      extraImg.style.display = "none";
+      extraVideo.style.display = "none";
+    }
+
+    window.onload = () => {
+      nextScene();
+    };
+  </script>
+
+</body>
+</html>
